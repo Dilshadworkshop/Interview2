@@ -1,0 +1,68 @@
+﻿@model Interview2.Models.Student
+
+@using (Html.BeginForm("Register", "Students", FormMethod.Post))
+{
+    <h2>Student Registration</h2>
+
+    @Html.LabelFor(m => m.FirstName) @Html.TextBoxFor(m => m.FirstName) @Html.ValidationMessageFor(m => m.FirstName)
+    @Html.LabelFor(m => m.LastName) @Html.TextBoxFor(m => m.LastName)
+    @Html.LabelFor(m => m.Age) @Html.TextBoxFor(m => m.Age) @Html.ValidationMessageFor(m => m.Age)
+    @Html.LabelFor(m => m.DOB) @Html.TextBoxFor(m => m.DOB, new { type = "date" }) @Html.ValidationMessageFor(m => m.DOB)
+    @Html.LabelFor(m => m.Gender) @Html.DropDownListFor(m => m.Gender, new SelectList(new[] { "Male", "Female" })) @Html.ValidationMessageFor(m => m.Gender)
+    @Html.LabelFor(m => m.Email) @Html.TextBoxFor(m => m.Email) @Html.ValidationMessageFor(m => m.Email)
+    @Html.LabelFor(m => m.PhoneNumber) @Html.TextBoxFor(m => m.PhoneNumber) @Html.ValidationMessageFor(m => m.PhoneNumber)
+    @Html.LabelFor(m => m.Username) @Html.TextBoxFor(m => m.Username) @Html.ValidationMessageFor(m => m.Username)
+    @Html.LabelFor(m => m.Password) @Html.PasswordFor(m => m.Password) @Html.ValidationMessageFor(m => m.Password)
+
+    <h3>Qualification Details</h3>
+    <div id="qualifications">
+        <div class="qualification-entry">
+            <label>Course Name*</label>
+            <input type="text" name="CourseName[]" required />
+
+            <label>University</label>
+            <input type="text" name="University[]" />
+
+            <label>Year of Passing*</label>
+            <input type="number" name="Year[]" required />
+
+            <label>Percentage*</label>
+            <input type="number" name="Percentage[]" step="0.01" required />
+        </div>
+    </div>
+    <button type="button" onclick="addQualification()">Add Qualification</button>
+    <button type="submit">Register</button>
+}<script>
+    $(document).ready(function () {
+        $("#registrationForm").validate({
+            rules: {
+                "FirstName": "required",
+                "Age": "required",
+                "DOB": "required",
+                "Gender": "required",
+                "Email": {
+                    required: true,
+                    email: true
+                },
+                "PhoneNumber": "required",
+                "Username": "required",
+                "Password": "required"
+            },
+            messages: {
+                "FirstName": "Please enter your first name",
+                "Age": "Please enter your age",
+                "DOB": "Please select your date of birth",
+                "Gender": "Please select your gender",
+                "Email": "Please enter a valid email address",
+                "PhoneNumber": "Please enter your phone number",
+                "Username": "Please enter a username",
+                "Password": "Please enter a password"
+            }
+        });
+    });
+
+    function addQualification() {
+        // Clone the qualification-entry div for additional qualifications
+        $("#qualifications").append($(".qualification-entry").first().clone());
+    }
+</script>
